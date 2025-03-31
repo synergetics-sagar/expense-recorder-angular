@@ -1,0 +1,9 @@
+.toolbar-items{
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+.toolbar-items > button {
+    margin-left: 10px;
+}

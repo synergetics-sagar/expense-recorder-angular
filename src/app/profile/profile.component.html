@@ -1,0 +1,11 @@
+<div class="center-card-wrapper">
+<mat-card class="login-card">
+    <h2>Profile</h2>
+    <p><strong>Name:</strong> {{user.name}}</p>
+    <p><strong>Email:</strong> {{user.email}}</p>
+    <button mat-flat-button extended (click)="handleLogout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+    </button>
+</mat-card>
+</div>
