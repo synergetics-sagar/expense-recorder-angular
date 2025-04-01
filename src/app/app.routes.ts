@@ -12,8 +12,14 @@ export const routes: Routes = [
         component: LoginComponent,
     },
     {
+        path: "",
+        component: PostLoginWrapperComponent,
+        canActivate: [AuthGuardService]
+    },
+    {
         path: "app",
         component: PostLoginWrapperComponent,
+        canActivate: [AuthGuardService],
         children: [
             {
                 path: "profile",
