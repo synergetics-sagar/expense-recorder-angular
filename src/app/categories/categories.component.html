@@ -1,23 +1,45 @@
 <div class="center-card-wrapper">
+
     <mat-card class="content-card">
         <h2>Categories</h2>
+        <mat-tab-group>
+            <mat-tab label="Categories">
+                <div class="categories-table">
+                    <table mat-table [dataSource]="categories" nclass="mat-elevation-z8">
+                        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
 
-        <table mat-table [dataSource]="categories" nclass="mat-elevation-z8">
-            <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+                        <ng-container matColumnDef="Title">
+                            <th mat-header-cell *matHeaderCellDef> Title </th>
+                            <td mat-cell *matCellDef="let category"> {{category.title}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Actions">
+                            <th mat-header-cell *matHeaderCellDef> Actions </th>
+                            <td mat-cell *matCellDef="let category">
+                                <button mat-button (click)="handleDelete(category._id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                    </table>
+                </div>
+            </mat-tab>
+            <mat-tab label="Add Category">
+                <div class="add-category">
+                    <h5>Add Category</h5>
+                    <form [formGroup]="newCategoryForm" (submit)="handleSubmit()">
+                        <mat-form-field>
+                            <mat-label>Category Title</mat-label>
+                            <input type="text" formControlName="title" required matInput>
+                        </mat-form-field>
+                        <br>
+                        <button mat-flat-button class="add-category-button">Submit</button>
+                    </form>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
 
-            <ng-container matColumnDef="Title">
-                <th mat-header-cell *matHeaderCellDef> Title </th>
-                <td mat-cell *matCellDef="let category"> {{category.title}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Actions">
-                <th mat-header-cell *matHeaderCellDef> Actions </th>
-                <td mat-cell *matCellDef="let category">
-                    <button mat-button>
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
-        </table>
+
+
     </mat-card>
 </div>

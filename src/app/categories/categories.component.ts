@@ -5,23 +5,51 @@ import {MatButtonModule} from '@angular/material/button';
 import { CategoriesService } from '../services/categories.service';
 import { CommonModule } from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatInputModule} from '@angular/material/input';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-categories',
-  imports: [CommonModule,MatCardModule, MatIconModule, MatButtonModule, MatTableModule],
+  imports: [CommonModule,MatCardModule, MatIconModule, MatButtonModule, MatTableModule, MatTabsModule, MatInputModule, ReactiveFormsModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent {
   
+  newCategoryForm: FormGroup
   categories: any
   displayColumns: string[] = ["Title", "Actions"]
-  constructor(private cs: CategoriesService){}
+  constructor(private cs: CategoriesService, private as: AuthService){
+    this.newCategoryForm = new FormGroup({
+      title: new FormControl("")
+    })
+  }
 
   ngOnInit(){
     this.cs.getCategories()
     .subscribe({
       next: (res:any)=>this.categories=res.categories,
+      error: (error)=>console.log(error)
+    })
+  }
+
+  handleSubmit(){
+    this.cs.addCategory(this.newCategoryForm.value)
+    .subscribe({
+      next: (res)=>{
+        this.newCategoryForm.reset()
+        alert("Category Created!")
+      },
+      error: (error)=>console.log(error)
+    })
+  }
+
+  handleDelete(id:any){
+    this.cs.deleteCategory(id)
+    .subscribe({
+      next: res=>alert("Category Deleted"),
       error: (error)=>console.log(error)
     })
   }

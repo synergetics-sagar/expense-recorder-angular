@@ -4,3 +4,4 @@ export const usersApi = `${baseUrl}/users`
 export const loginApi = `${usersApi}/login`
 export const profileApi = `${usersApi}/profile`
 export const categoriesApi = `${baseUrl}/categories`
+export const deleteCategoryApi = (id:any)=>`${categoriesApi}/${id}`

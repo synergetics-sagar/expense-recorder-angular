@@ -1,0 +1,16 @@
+.add-category{
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+}
+
+.add-category-button {
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  .categories-table{
+    max-height: 250px;
+    overflow-y: scroll;
+  }
