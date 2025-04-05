@@ -1,0 +1,40 @@
+<div class="center-card-wrapper">
+    <mat-card class="content-card">
+        <h2>
+            New Expense
+            <button mat-flat-button class="expenses-filters" routerLink="/app/expenses">
+                <mat-icon>wallet</mat-icon>
+                All
+            </button>
+        </h2>
+
+        <form [formGroup]="newExpense" (submit)="handleSubmit()">
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <input type="text" formControlName="description" required matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>amount</mat-label>
+                <input type="number" formControlName="amount" required matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date">
+                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="expenses-filters">
+                <mat-label>Select Category</mat-label>
+                <mat-select formControlName="categoryId">
+                    <mat-option [value]="'All'">All</mat-option>
+                    @for (category of categories; track category) {
+                    <mat-option [value]="category._id">{{category.title}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <button mat-flat-button>Submit</button>
+        </form>
+        <!-- {{categories | json}} -->
+    </mat-card>
+</div>

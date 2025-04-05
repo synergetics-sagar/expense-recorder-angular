@@ -9,6 +9,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -21,13 +22,17 @@ export class CategoriesComponent {
   newCategoryForm: FormGroup
   categories: any
   displayColumns: string[] = ["Title", "Actions"]
-  constructor(private cs: CategoriesService, private as: AuthService){
+  constructor(private cs: CategoriesService, private as: AuthService, private router: Router){
     this.newCategoryForm = new FormGroup({
       title: new FormControl("")
     })
   }
 
   ngOnInit(){
+    this.getCategories()
+  }
+
+  getCategories(){
     this.cs.getCategories()
     .subscribe({
       next: (res:any)=>this.categories=res.categories,
@@ -40,6 +45,7 @@ export class CategoriesComponent {
     .subscribe({
       next: (res)=>{
         this.newCategoryForm.reset()
+        this.getCategories()
         alert("Category Created!")
       },
       error: (error)=>console.log(error)
@@ -49,7 +55,10 @@ export class CategoriesComponent {
   handleDelete(id:any){
     this.cs.deleteCategory(id)
     .subscribe({
-      next: res=>alert("Category Deleted"),
+      next: res=>{
+        this.getCategories()
+        alert("Category Deleted")
+      },
       error: (error)=>console.log(error)
     })
   }

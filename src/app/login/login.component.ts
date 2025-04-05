@@ -20,8 +20,8 @@ export class LoginComponent {
   myForm: FormGroup
   constructor(private as: AuthService, private router: Router){
     this.myForm = new FormGroup({
-      email: new FormControl("vaun@mmc.com"),
-      password: new FormControl("vaun@123")
+      email: new FormControl("sagar@example.com"),
+      password: new FormControl("123123")
     })
   }
 

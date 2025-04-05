@@ -5,6 +5,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { PostLoginWrapperComponent } from './post-login-wrapper/post-login-wrapper.component';
 import { CategoriesComponent } from './categories/categories.component';
+import { NewExpenseComponent } from './new-expense/new-expense.component';
 
 export const routes: Routes = [
     {
@@ -29,11 +30,16 @@ export const routes: Routes = [
             {
                 path: "expenses",
                 component: ExpensesComponent,
-                canActivate: [AuthGuardService]
+                canActivate: [AuthGuardService],
             },
             {
                 path: "categories",
                 component: CategoriesComponent,
+                canActivate: [AuthGuardService]
+            },
+            {
+                path: "new-expense",
+                component: NewExpenseComponent,
                 canActivate: [AuthGuardService]
             }
         ]
