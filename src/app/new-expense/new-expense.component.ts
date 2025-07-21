@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCard } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CategoriesService } from '../services/categories.service';
 import { ExpensesService } from '../services/expenses.service';
 import { JsonPipe } from '@angular/common';
@@ -24,7 +24,7 @@ export class NewExpenseComponent {
 
   categories: any
   newExpense: FormGroup
-  constructor(private cs: CategoriesService, private es: ExpensesService){
+  constructor(private router: Router,private cs: CategoriesService, private es: ExpensesService){
     this.newExpense = new FormGroup({
       description: new FormControl(),
       amount: new FormControl(),
@@ -45,7 +45,11 @@ export class NewExpenseComponent {
     console.log(this.newExpense.value)
     this.es.addExpense(this.newExpense.value)
     .subscribe({
-      next: (res)=>console.log(res),
+      next: (res)=>{
+        alert("New Expense Created")
+        // this.newExpense.reset()
+        this.router.navigate(["/app/expenses"])
+      },
       error: (err)=>console.log(err)
     })
   }

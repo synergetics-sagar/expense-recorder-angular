@@ -10,6 +10,8 @@ import {MatInputModule} from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { saveCategories } from './categories.actions';
 
 @Component({
   selector: 'app-categories',
@@ -20,24 +22,44 @@ import { Router } from '@angular/router';
 export class CategoriesComponent {
   
   newCategoryForm: FormGroup
-  categories: any
+  categories: any = []
   displayColumns: string[] = ["Title", "Actions"]
-  constructor(private cs: CategoriesService, private as: AuthService, private router: Router){
+  constructor(private store: Store<{categories: any}> ,private cs: CategoriesService, private as: AuthService, private router: Router){
     this.newCategoryForm = new FormGroup({
       title: new FormControl("")
     })
   }
 
   ngOnInit(){
-    this.getCategories()
+      // Fetching categories from redux store
+      // Only if categories are available in the redux store
+      this.store.select("categories")
+      .subscribe({
+        next: (categories)=>{
+          if(categories.length==0){
+            // Fetch Categories
+            this.getCategories()
+          }
+          else{
+            this.categories = categories
+          }
+        },
+        error: (error)=>console.log(error)
+      })
+   
   }
 
   getCategories(){
-    this.cs.getCategories()
-    .subscribe({
-      next: (res:any)=>this.categories=res.categories,
-      error: (error)=>console.log(error)
-    })
+      // Fetching categories from REST API and Saving it in the redux store
+      this.cs.getCategories()
+      .subscribe({
+        next: (res:any)=>{
+          let categories = res.categories
+          this.categories = categories
+          this.store.dispatch(saveCategories({categories}))
+        },
+        error: (error)=>console.log(error)
+      })
   }
 
   handleSubmit(){
